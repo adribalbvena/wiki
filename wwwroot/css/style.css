@@ -1,0 +1,70 @@
+﻿.iconCarousel {
+    height: 60px;
+    width: 60px;
+    margin: auto;
+}
+
+.titleWiki {
+    font-size: 50px;
+    font-family: 'Lobster', cursive;
+}
+
+.section1{
+    margin-top: 10px;
+}
+
+.titleAbout {
+    font-family: 'Lobster', cursive;
+}
+
+.inputSearch {
+    padding-left: 200px;
+    padding-right: 200px;
+    margin-bottom: 50px;
+}
+
+.pTextSearch {
+    margin-top: 40px;
+    margin-left: 200px;
+}
+
+.aboutButton{
+    width: 40%;
+}
+
+.textWiki2{
+    margin-bottom: 100px;
+}
+
+.textWiki3 {
+    margin-bottom: 20px;
+}
+
+justifyText {
+    text-align: justify;
+}
+
+body header nav div div ul li:hover{
+    background-color: grey;
+    border-radius: 5px;
+}
+
+body header nav div ul li:hover {
+    background-color: black;
+}
+
+.accountsNav {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: gray;
+    border-radius: 5px;
+}
+
+.blockRegisterLogin {
+    width: 50%;
+    margin: auto;
+}
+
+.forArt {
+    border-radius: 10px;
+}
