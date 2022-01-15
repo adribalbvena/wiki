@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Wiki.Models.User>
+
+@{
+    ViewData["Title"] = "Usuario";
+}
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki animate__animated animate__rubberBand animate__delay-1s">@ViewData["Title"]</h1>
+</div>
+
+
+<p class="blockRegisterLogin mt-5">
+    <a class="btn btn-primary" role="button" asp-action="Create">Nuevo Usuario</a>
+</p>
+
+<div class="container input-group mb-3 mt-5">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></span>
+    </div>
+    <input id="myInput" type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon1">
+</div>
+
+<table class="blockRegisterLogin table mt-2">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.CreationDate)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>*@
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id"><img src="~/img/icons/edit.png" height="18" width="18" class="" alt="Editar"></a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id"><img src="~/img/icons/delete.png" height="18" width="18" class="" alt="Eliminar"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

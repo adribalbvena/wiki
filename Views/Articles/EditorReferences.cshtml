@@ -1,0 +1,119 @@
+﻿@model ArticleReferencesViewModel
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h1 class="titleWiki font-italic">
+                Referencias
+            </h1>
+        </div>
+    </div>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="container">
+                <form asp-controller="Articles">
+                    @Html.HiddenFor(model => model.ArticleId)
+                    <div class="row justify-content-center">
+                        <div class="col form-group">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">@Html.DisplayNameFor(model => model.References)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < this.Model.References.Count; i++)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(model => model.References[i].Id)
+                                            @Html.HiddenFor(model => model.References[i].Title)
+                                            <td>
+                                                <div class="row justify-content-center align-items-center" name="@Model.References[i].Title" id="@Model.References[i].Id">
+                                                    <div class="col-auto">
+                                                        @Model.References[i].Title
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <span>
+                                                            <button type="submit" asp-action="RemoveReference" asp-route-id="@Model.References[i].Id" class="btn btn-danger">Quitar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col form-group">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>
+                                            <div class="row justify-content-center">
+                                                <div class="col form-group">
+                                                    <input asp-for="Title" class="form-control" />
+                                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button type="submit" asp-action="SearchReference" class="btn btn-primary">Buscar</button>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    @if (this.Model.Results.Any())
+                                    {
+                                        <tr>
+                                            <th scope="col">@Html.DisplayNameFor(model => model.Results)</th>
+                                        </tr>
+                                    }
+                                </thead>
+                                <tbody>
+                                    @foreach (var r in this.Model.Results)
+                                    {
+                                        <tr>
+                                            <td>
+
+                                                <div class="row justify-content-center align-items-center">
+                                                    <div class="col-auto">
+                                                        @r.Title
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <button type="submit" asp-action="AddReference" asp-route-id="@r.Id" class="btn btn-outline-secondary">Agregar</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-content-center form-group">
+                        <div class="col-auto">
+                            <span>
+                                <a class="btn btn-primary" role="button" asp-action="EditorKeyWords" asp-route-id="@Model.ArticleId">Palabras Clave</a>
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span>
+                                <a class="btn btn-danger" role="button" asp-action="MyArticles">Cancelar</a>
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span>
+                                <button type="submit" asp-action="EditorReferences" asp-route-id="@Model.ArticleId" class="btn btn-primary text-center">Finalizar</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

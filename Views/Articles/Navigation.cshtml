@@ -1,0 +1,67 @@
+﻿@model ArticleNavigationViewModel
+
+@{
+    this.ViewData["Title"] = "Artículos";
+}
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki animate__animated animate__rubberBand animate__delay-1s">@ViewData["Title"]</h1>
+</div>
+
+@*<div class="container input-group mb-3 mt-5">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></span>
+        </div>
+        <input id="myInput" type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon1">
+    </div>*@
+<div class="container">
+    <div class="row justify-content-center">
+        @if (Model.KeyWord != null)
+        {
+            <b>Palabra clave:&nbsp;</b>@Model.KeyWord.Word
+        }
+
+        @if (Model.Category != null)
+        {
+            <b>Categoría:&nbsp;</b>@Model.Category.Name
+        }
+    </div>
+</div>
+<table class="blockRegisterLogin table mt-2">
+    <thead>
+        <tr>
+            <th>
+                Titulo
+                @*@Html.DisplayNameFor(model => model.Title)*@
+            </th>
+            <th>
+                Autor
+                @*@Html.DisplayNameFor(model => model.Author)*@
+            </th>
+            <th>
+                Categoría
+                @*@Html.DisplayNameFor(model => model.PrimaryCategory)*@
+            </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var article in this.Model.Articles)
+        {
+            <tr>
+                <td>
+                    @article.Title
+                </td>
+                <td>
+                    @article.Author.CompleteName
+                </td>
+                <td>
+                    @article.PrimaryCategory.EnabledName
+                </td>
+                <td>
+                    <a asp-action="Reader" asp-route-id="@article.Id"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,135 @@
+﻿@model ArticleKeyWordsViewModel
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h1 class="titleWiki font-italic">
+                Palabras Clave
+            </h1>
+        </div>
+    </div>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="container">
+                <form asp-controller="Articles">
+                    @Html.HiddenFor(model => model.ArticleId)
+                    <div class="row justify-content-center">
+                        <div class="col form-group">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">@Html.DisplayNameFor(model => model.KeyWords)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.KeyWords.Count; i++)
+                                    {
+                                        <tr>
+                                            @Html.HiddenFor(model => model.KeyWords[i].Id)
+                                            @Html.HiddenFor(model => model.KeyWords[i].Word)
+                                            <td>
+                                                <div class="row justify-content-center align-items-center" name="@Model.KeyWords[i].Word" id="@Model.KeyWords[i].Id">
+                                                    <div class="col-auto">
+                                                        @Model.KeyWords[i].Word
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <span>
+                                                            <button type="submit" asp-action="RemoveKeyWord" asp-route-word="@Model.KeyWords[i].Word" class="btn btn-danger">Quitar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col form-group">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="table-dark">
+                                            <div class="row justify-content-center">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col form-group">
+                                                            <input asp-for="SearchText" class="form-control" />
+                                                            <span asp-validation-for="SearchText" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button type="submit" asp-action="SearchKeyWord" class="btn btn-primary">Buscar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col form-group">
+                                                            <input asp-for="KeyWord.Word" class="form-control" />
+                                                            <span asp-validation-for="KeyWord.Word" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <span>
+                                                                <button type="submit" asp-action="CreateKeyWord" class="btn btn-primary">Crear</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    @if (this.Model.Results.Any())
+                                    {
+                                        <tr>
+                                            <th scope="col">@Html.DisplayNameFor(model => model.Results)</th>
+                                        </tr>
+                                    }
+                                </thead>
+                                <tbody>
+                                    @foreach (var r in Model.Results)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="row justify-content-center align-items-center">
+                                                    <div class="col-auto">
+                                                        @r.Word
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <button type="submit" asp-action="AddKeyWord" asp-route-id="@r.Id" class="btn btn-outline-secondary">Agregar</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-content-center form-group">
+                        <div class="col-auto">
+                            <span>
+                                <a class="btn btn-primary" role="button" asp-action="EditorEntries" asp-route-id="@Model.ArticleId">Entradas</a>
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span>
+                                <a class="btn btn-danger" role="button" asp-action="MyArticles">Cancelar</a>
+                            </span>
+                        </div>
+                        <div class="col-auto">
+                            <span>
+                                <button type="submit" asp-action="EditorKeyWords" asp-route-id="@Model.ArticleId" class="btn btn-primary text-center">Referencias</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

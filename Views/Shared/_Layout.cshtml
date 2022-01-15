@@ -1,0 +1,94 @@
+﻿@inject SignInManager<User> signInManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Wiki</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark box-shadow">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img width="50" height="50" src="~/img/Logo-Wiki.png" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white btn-md" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            @if (User.IsInRole(Const.AdminRoleName))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Articles" asp-action="Index">Artículos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white btn-md" asp-controller="KeyWords" asp-action="Index">Palabras Clave</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white btn-md" asp-controller="Categories" asp-action="Index">Categorías</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Users" asp-action="Index">Usuarios</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Articles" asp-action="MyArticles">Mis Artículos</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <ul class="nav justify-content-end">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item accountsNav">
+                            <a class="nav-link text-white active btn-md" asp-controller="Accounts" asp-action="LogOut">Cerrar Sesión: @User.Identity.Name</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item accountsNav">
+                            <a class="nav-link text-white active btn-md" asp-controller="Accounts" asp-action="RegisterUser">Registro</a>
+                        </li>
+                        <li class="nav-item accountsNav">
+                            <a class="nav-link text-white active btn-md" asp-controller="Accounts" asp-action="LogIn">Iniciar Sesión</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="bg-white">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-dark">
+        <div class="container text-white">
+            &copy; 2021 - Wiki - <a class="text-white" asp-controller="Home" asp-action="Privacy"><b>Privacy</b></a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/master.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

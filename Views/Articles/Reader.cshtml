@@ -1,0 +1,117 @@
+﻿@model ArticleReaderViewModel
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki">@Model.Title</h1>
+</div>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <p class="text-break">@Model.Description</p>
+    </div>
+    @foreach (var entry in Model.Entries)
+    {
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="row font-weight-bold">@($"{entry.Order+1}. {entry.Title}")</div>
+                <div class="row font-italic">@entry.SubTitle</div>
+                <div class="row"><p class="text-break">@entry.Text</p></div>
+            </div>
+        </div>
+    }
+
+    @{ var separator = ","; }
+
+    @if (Model.KeyWords.Any())
+    {
+        <div class="row">
+            Palabras clave:&nbsp;
+            @foreach (var kw in Model.KeyWords)
+            {
+                <a asp-controller="Articles" asp-action="Navigation" asp-route-keyWordId="@kw.Id">@kw.Word</a>@separator@:&nbsp;
+            }
+        </div>
+    }
+
+    @if (Model.References.Any())
+    {
+        <div class="row">
+            Referencias:&nbsp;
+            @foreach (var r in Model.References)
+            {
+                <a asp-controller="Articles" asp-action="Reader" asp-route-id="@r.Id">@r.Title</a>@separator@:&nbsp;
+            }
+        </div>
+    }
+
+    @if (Model.CanEdit)
+    {
+        <div class="row justify-content-center">
+            <a class="btn btn-primary" asp-action="Editor" asp-route-id="@Model.ArticleId">Editar</a>
+        </div>
+    }
+
+    <hr />
+
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="text-center text-secondary mb-0 titleWiki">@Html.DisplayNameFor(model => model.Messages)</h3>
+            @foreach (var message in Model.Messages)
+            {
+                <hr />
+
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            @message.ReaderDescription
+                        </div>
+                        <div class="row font-italic">
+                            <u>@message.Title</u>
+                        </div>
+                        <div class="row">
+                            @message.Text
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <hr />
+
+            <form asp-action="NewMessage" asp-route-articleId="@Model.ArticleId">
+                @Html.HiddenFor(model => model.ArticleId)
+                <div class="row form-group">
+                    <label asp-for="NewMessage.Title" class="control-label"></label>
+                    <input asp-for="NewMessage.Title" class="form-control" />
+                    <span asp-validation-for="NewMessage.Title" class="text-danger"></span>
+                </div>
+                <div class="row form-group">
+                    <label asp-for="NewMessage.Text" class="control-label"></label>
+                    <input asp-for="NewMessage.Text" class="form-control" />
+                    <span asp-validation-for="NewMessage.Text" class="text-danger"></span>
+                </div>
+                <div class="row justify-content-center">
+                    <input type="submit" value="Comentar" class="btn btn-md btn-outline-secondary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @*<div class="row">
+            <div class="col-2">
+                <div class="row">
+                    <div class="text-center">
+                        <a class="btn btn-md btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">
+                            Editar
+                        </a>
+                    </div>
+                    <div class="text-center ml-3">
+                        <a class="btn btn-md btn-outline-secondary" asp-action="Index">
+                            Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>

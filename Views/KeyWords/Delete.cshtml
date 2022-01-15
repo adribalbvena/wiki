@@ -1,0 +1,25 @@
+﻿@model DeleteKeyWordViewModel
+
+@{
+    ViewData["Title"] = "Eliminar Palabra Clave";
+}
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki animate__animated animate__rubberBand animate__delay-1s">@ViewData["Title"]</h1>
+</div>
+
+<hr />
+<h3 class="blockRegisterLogin mt-5 mb-4">¿Estás segur&#64; de que quieres eliminar esto?</h3>
+
+<div class="blockRegisterLogin">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.KeyWord.Word)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KeyWord.Word)
+        </dd>
+    </dl>
+
+    <partial name="_DeletePartial" />
+</div>

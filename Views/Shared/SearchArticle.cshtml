@@ -1,0 +1,27 @@
+﻿
+@model HomeViewModel
+@{
+    ViewData["Title"] = "Paralabras claves buscadas";
+}
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki animate__animated animate__rubberBand animate__delay-1s">@ViewData["Title"]</h1>
+</div>
+
+<div class="container">
+    <table class="mt-2">
+        <thead>
+            <tr>
+                <th>Palabras claves similares</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            @foreach (var item in Model.KeyWords)
+            {
+            <tr class="myTd">
+                <td>@Html.DisplayFor(modelItem => item.Word)</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

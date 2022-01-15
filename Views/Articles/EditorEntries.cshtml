@@ -1,0 +1,150 @@
+﻿@model ArticleEntriesViewModel
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <h1 class="titleWiki font-italic">
+                Entradas
+            </h1>
+        </div>
+    </div>
+    <hr />
+    <form asp-controller="Articles">
+        @Html.HiddenFor(model => model.ArticleId)
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">
+                                @if (Model.Entry.Editor)
+                                {
+                                    <p>Editar entrada</p>
+                                }
+                                else
+                                {
+                                    <p>Agregar entrada</p>
+                                }
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col">
+                                        @Html.HiddenFor(model => model.Entry.Order)
+                                        @Html.HiddenFor(model => model.Entry.Editor)
+                                        <div class="form-group">
+                                            <label asp-for="Entry.Title" class="control-label"></label>
+                                            <input asp-for="Entry.Title" class="form-control" />
+                                            <span asp-validation-for="Entry.Title" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Entry.SubTitle" class="control-label"></label>
+                                            <input asp-for="Entry.SubTitle" class="form-control" />
+                                            <span asp-validation-for="Entry.SubTitle" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Entry.Text" class="control-label"></label>
+                                            <textarea asp-for="Entry.Text" class="form-control"></textarea>
+                                            <span asp-validation-for="Entry.Text" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center form-group">
+
+                                    <div class="col-auto">
+                                        @if (Model.Entry.Editor)
+                                        {
+                                            <span>
+                                                <button type="submit" asp-action="SaveEntry" asp-route-order="@Model.Entry.Order" class="btn btn-primary">Guardar</button>
+                                            </span>
+                                            <span>
+                                                <button type="submit" asp-action="CancelEntry" class="btn btn-danger">Cancelar</button>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>
+                                                <button type="submit" asp-action="AddEntry" class="btn btn-primary">Agregar</button>
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"><p>@Html.DisplayNameFor(model => model.Entries)</p></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Entries.Count; i++)
+                        {
+                            <tr>
+                                @Html.HiddenFor(model => model.Entries[i].Id)
+                                @Html.HiddenFor(model => model.Entries[i].Order)
+                                @Html.HiddenFor(model => model.Entries[i].Title)
+                                @Html.HiddenFor(model => model.Entries[i].SubTitle)
+                                @Html.HiddenFor(model => model.Entries[i].Text)
+                                <td>
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <div class="row font-weight-bold">@Model.Entries[i].Title</div>
+                                                <div class="row font-italic">@Model.Entries[i].SubTitle</div>
+                                                <div class="row"><p class="text-break">@Model.Entries[i].Text</p></div>
+                                            </div>
+                                            <div class="col-auto">
+                                                @if (!Model.Entry.Editor)
+                                                {
+                                                    <span>
+                                                        <button type="submit" asp-action="EditEntry" asp-route-order="@Model.Entries[i].Order" class="btn btn-primary">Editar</button>
+                                                    </span>
+                                                    <span>
+                                                        <button type="submit" asp-action="RemoveEntry" asp-route-order="@Model.Entries[i].Order" class="btn btn-danger">Quitar</button>
+                                                    </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center form-group">
+            <div class="col-auto">
+                <span>
+                    <a class="btn btn-primary" role="button" asp-action="Editor" asp-route-id="@Model.ArticleId">Categorías</a>
+                </span>
+            </div>
+            <div class="col-auto">
+                <span>
+                    <a class="btn btn-danger" role="button" asp-action="MyArticles">Cancelar</a>
+                </span>
+            </div>
+            <div class="col-auto">
+                <span>
+                    <button type="submit" asp-action="EditorEntries" asp-route-id="@Model.ArticleId" class="btn btn-primary">Palabras Clave</button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

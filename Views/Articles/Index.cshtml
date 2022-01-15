@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Wiki.Models.Article>
+
+@{
+    this.ViewData["Title"] = "Artículos";
+}
+
+<div class="container mt-5">
+    <h1 class="page-section-heading text-center text-secondary mb-0 titleWiki animate__animated animate__rubberBand animate__delay-1s">@ViewData["Title"]</h1>
+</div>
+
+<div class="container input-group mb-3 mt-5">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></span>
+    </div>
+    <input id="myInput" type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar" aria-describedby="basic-addon1">
+</div>
+<table class="blockRegisterLogin table mt-2">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrimaryCategory)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Enabled)
+            </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.CompleteName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrimaryCategory.Name)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Enabled)
+                </td>
+                <td>
+                    <a asp-action="Reader" asp-route-id="@item.Id"><img src="~/img/icons/detail.png" height="18" width="18" class="" alt="Detalle"></a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"><img src="~/img/icons/delete.png" height="18" width="18" class="" alt="Eliminar"></a>
+                    @if (item.PrimaryCategory.Enabled)
+                    {
+                        <a asp-action="ChangeEnabledStatus" asp-route-returnUrl="Index" asp-route-id="@item.Id">
+                            @if (item.Enabled)
+                            {
+                                <img src="~/img/icons/lock.png" height="18" width="18" class="" alt="Deshabilitar">
+                            }
+                            else
+                            {
+                                <img src="~/img/icons/unlock.png" height="18" width="18" class="" alt="Habilitar">
+                            }
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
